@@ -1,0 +1,8 @@
+
+    <resources>
+        <color name="background">#000000</color>
+        <color name="textColor">#ffffff</color>
+        <color name="ctrlbackground">#00000000</color>
+        <color name="btn_background">#1b1b1b</color>
+        <color name="btn_pressed_background">#515151</color>
+    </resources>

@@ -1,0 +1,27 @@
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:id="@+id/LinearLayout1"
+    android:layout_width="fill_parent"
+    android:layout_height="fill_parent" >
+
+    <TextView
+        android:id="@+id/tv_title"
+        android:layout_width="0sp"
+        android:layout_height="@dimen/player_list_item_height"
+        android:text=""
+        android:layout_weight="3"
+        android:textColor="@color/textColor"
+        android:textSize="20sp"
+        android:gravity="center_vertical"
+        android:background="@color/background" />
+
+    <Button
+        android:id="@+id/btn_del"
+        android:layout_width="0sp"
+        android:layout_height="@dimen/player_list_item_height"
+        android:layout_weight="1"
+        android:text="@string/btn_del"
+        android:textColor="@color/textColor"
+        android:textSize="20sp"
+        android:background="@drawable/selector_menu" />
+
+</LinearLayout>

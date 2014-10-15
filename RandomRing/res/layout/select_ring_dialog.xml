@@ -1,0 +1,41 @@
+<TableLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="fill_parent"
+    android:layout_height="fill_parent" >
+
+    <ListView
+        android:id="@+id/list_all_rings"
+        android:layout_width="match_parent"
+        android:layout_height="0sp"
+        android:layout_weight="10"
+        android:background="@color/background" />
+
+    <TableRow
+        android:id="@+id/unused3"
+        android:layout_width="match_parent"
+        android:layout_height="0sp"
+        android:layout_weight="1"
+        android:background="@color/background" >
+
+        <Button
+            android:id="@+id/btn_sure_dialog"
+            android:layout_width="0sp"
+            android:layout_height="match_parent"
+            android:layout_weight="1"
+            android:text="@string/sure"
+            android:background="@drawable/selector"
+            android:textColor="@color/textColor"
+            android:textSize="20sp" />
+
+        <Button
+            android:id="@+id/btn_cancel_dialog"
+            android:layout_width="0sp"
+            android:layout_height="match_parent"
+            android:layout_weight="1"
+            android:text="@string/cancel"
+            android:background="@drawable/selector"
+            android:textColor="@color/textColor"
+            android:textSize="20sp" />
+
+    </TableRow>
+
+</TableLayout>

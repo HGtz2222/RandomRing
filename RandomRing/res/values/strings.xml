@@ -1,8 +1,13 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
 
-    <string name="app_name">RandomRing</string>
+    <string name="app_name">铃声随心听</string>
     <string name="action_settings">Settings</string>
     <string name="hello_world">Hello world!</string>
+    <string name="btn_del">X</string>
+    <string name="btn_insert">+</string>
+    <string name="select_ring_title">选择铃声</string>
+    <string name="sure">确定</string>
+    <string name="cancel">取消</string>
 
 </resources>

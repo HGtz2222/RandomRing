@@ -31,7 +31,8 @@
                  <action android:name="android.intent.action.PHONE_STATE"/>             
                  <action android:name="android.intent.action.NEW_OUTGOING_CALL" />  
             </intent-filter>  
-		</receiver>  
+		</receiver>
+        <provider android:name=".MyContentProvider" android:authorities="com.tz.randomring"></provider>  
     </application>
 
 </manifest>
