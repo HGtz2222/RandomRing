@@ -50,7 +50,10 @@ public class RingInfo {
 	}
 
 	public ArrayList<HashMap<String, Object>> getAllData(Context context) {
-		// 枚举出所有的媒体库中的铃声; 
+		Log.i("tz", "getAllData start");
+		// 1. 枚举出所有已经选择的铃声; 
+		ArrayList<HashMap<String, Object>> selectedList = getData(context);
+		// 2. 枚举出所有的媒体库中的铃声; 
 		ArrayList<HashMap<String, Object>> list = new ArrayList<HashMap<String, Object>>();
 		ContentResolver cr = context.getContentResolver();
 		Cursor cursor = cr.query(MediaStore.Audio.Media.INTERNAL_CONTENT_URI,
@@ -67,11 +70,34 @@ public class RingInfo {
             map.put("id", cursor.getString(0));
             map.put("data", cursor.getString(1));
             map.put("title", cursor.getString(2));
-            map.put("isSelected", false); // TODO 根据保存结果, 来确定这一项是否为false
+            map.put("isSelected", isSelected(cursor.getString(1), selectedList)); // 根据保存结果, 来确定这一项是否为false
             list.add(map);
         }
+		Log.i("tz", "getAllData finish");
 		return list;
 	}
 
+	private Boolean isSelected(String curRing, ArrayList<HashMap<String, Object>> selectedList) {
+		for(int i = 0; i < selectedList.size(); ++i){
+			HashMap<String, Object> map = selectedList.get(i);
+			String tmpRing = (String)map.get("data");
+			if (tmpRing.equals(curRing)){
+				return Boolean.TRUE;
+			}
+		}
+		return Boolean.FALSE;
+	}
+
+	public void insert(Context context, HashMap<String, Object> map) {
+		ContentValues contentValues = new ContentValues();
+		contentValues.put(MyContentProvider.TITLE, (String)map.get("title"));
+		contentValues.put(MyContentProvider.DATA, (String)map.get("data"));
+		context.getContentResolver().insert(MyContentProvider.CONTENT_URI, contentValues);
+	}
+
+	public void remove(Context context, HashMap<String, Object> map) {
+		String ringData = (String)map.get("data");
+		context.getContentResolver().delete(MyContentProvider.CONTENT_URI, null, new String[]{ringData});
+	}
 
 }

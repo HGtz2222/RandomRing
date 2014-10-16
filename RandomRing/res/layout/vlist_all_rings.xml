@@ -1,12 +1,12 @@
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
     android:id="@+id/LinearLayout2"
     android:layout_width="fill_parent"
-    android:layout_height="60sp" >
+    android:layout_height="fill_parent" >
 
     <TextView
         android:id="@+id/tv_title_in_all"
         android:layout_width="0sp"
-        android:layout_height="match_parent"
+        android:layout_height="@dimen/player_list_item_height"
         android:text=""
         android:layout_weight="5"
         android:textColor="@color/textColor"
@@ -17,7 +17,7 @@
     <CheckBox
         android:id="@+id/btn_select_ring"
         android:layout_width="0sp"
-        android:layout_height="match_parent"
+        android:layout_height="@dimen/player_list_item_height"
         android:layout_weight="1"
         android:text=""
         android:gravity="center" />

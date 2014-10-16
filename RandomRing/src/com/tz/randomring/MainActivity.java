@@ -49,6 +49,12 @@ public class MainActivity extends Activity {
 		ringList.setAdapter(sa);
 	}
 	
+	public void refreshData(){
+		ArrayList<HashMap<String, Object>> tmp = ringInfo.getData(this);
+		sa.setData(tmp);
+		sa.notifyDataSetChanged();
+	}
+	
 	public ArrayList<HashMap<String, Object>> getData(){
 		return ringInfo.getData(this);
 	}
@@ -86,6 +92,7 @@ public class MainActivity extends Activity {
 	public void onBackPressed() {
 		Log.e("tz", "onBackPressed");
 		//Ring.test_scanMedia(this);
+		super.onBackPressed();
 	}
     
     public void registerIt() {  
@@ -100,5 +107,16 @@ public class MainActivity extends Activity {
     public void unregisterIt() {  
         Log.i("tz", "unregisterIt");  
         unregisterReceiver(mBroadcastReceiver);  
-    }  
+    }
+
+	public void updateDB(HashMap<String, Object> map) {
+		Boolean isSelected = (Boolean)map.get("isSelected");
+		if (isSelected){
+			// 插入数据;
+			ringInfo.insert(this, map);
+		}else{
+			// 删除数据; 
+			ringInfo.remove(this, map);
+		}
+	}  
 }

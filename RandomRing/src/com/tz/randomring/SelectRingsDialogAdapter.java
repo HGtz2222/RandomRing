@@ -72,17 +72,24 @@ public class SelectRingsDialogAdapter extends BaseAdapter{
 		holder.btnDel.setOnClickListener(new Button.OnClickListener(){
 			@Override
 			public void onClick(View arg0) {
-				// TODO 删除一个条目; 
 				Log.e("tz", "delete item");
-				// 1. 删除data中的一项;
-				data.remove(index);
+				HashMap<String, Object> map = data.get(index);
+				map.put("isSelected", Boolean.FALSE);
 				// 2. 删除数据库; 
 				MainActivity a = (MainActivity)context;
-				a.setData(data);
-				// 3. TODO 通知界面更新; 
+				a.updateDB(map);
+				// 3. 更新界面表的数据; 
+				a.refreshData();
+				ArrayList<HashMap<String, Object>> tmp = data;
+				tmp.size();
+				SelectRingsDialogAdapter.this.notifyDataSetChanged();
 			}
 		});
 		return convertView;
+	}
+
+	public void setData(ArrayList<HashMap<String, Object>> data) {
+		this.data = data;
 	}
 
 }

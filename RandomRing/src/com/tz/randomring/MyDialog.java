@@ -25,8 +25,8 @@ public class MyDialog {
 		Display d = m.getDefaultDisplay();
 		Window dialogWindow = dialog.getWindow();
 	    WindowManager.LayoutParams lp = dialogWindow.getAttributes();
-	    lp.height = (int)(d.getHeight() * 0.9);
-	    lp.width = (int)(d.getWidth() * 1.0);
+	    lp.height = (int)(d.getHeight() * 0.8);
+	    lp.width = (int)(d.getWidth() * 0.9);
 	    //Log.e("tz", "h, w" + lp.height + ", " + lp.width);
 	    dialogWindow.setAttributes(lp);
 	    // 3. 禁止后退; 
@@ -48,17 +48,13 @@ public class MyDialog {
 		list.setAdapter(sa);
 		// 3. 绑定列表框的事件; 
 		list.setOnItemClickListener(new AllRingsOnItemClickListener());
-		// 3. 绑定按钮; 
+		// 4. 绑定按钮; 
 		Button btnSure = (Button)dialog.findViewById(R.id.btn_sure_dialog);
 		btnSure.setOnClickListener(new Button.OnClickListener(){
 			@Override
 			public void onClick(View arg0) {
-//				for(int i = 0; i < data.size(); ++i){
-//					HashMap<String, Object> map = data.get(i);
-//					Log.e("tz data", "" + map.get("title") + ", " + map.get("isSelected"));
-//				}
-				a.setData(data);
 				dialog.dismiss();
+				a.refreshData();
 			}
 		});
 		Button btnCancel = (Button)dialog.findViewById(R.id.btn_cancel_dialog);
@@ -66,6 +62,7 @@ public class MyDialog {
 			@Override
 			public void onClick(View arg0) {
 				dialog.dismiss();
+				a.refreshData();
 			}
 		});
 		dialog.show();

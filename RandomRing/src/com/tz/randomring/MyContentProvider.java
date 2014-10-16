@@ -44,8 +44,10 @@ public class MyContentProvider extends ContentProvider{
 	private SQLiteDatabase sqlDB;
 	
 	@Override
-	public int delete(Uri arg0, String arg1, String[] arg2) {
-		Log.e("tz", "MyContentProvider delete");
+	public int delete(Uri uri, String where, String[] whereArgs) {
+		Log.e("tz", "MyContentProvider delete " + whereArgs[0]);
+		sqlDB = dbHelper.getWritableDatabase();
+		sqlDB.delete(TABLE_NAME, DATA + "=?", whereArgs);
 		return 0;
 	}
 
@@ -56,7 +58,7 @@ public class MyContentProvider extends ContentProvider{
 
 	@Override
 	public Uri insert(Uri uri, ContentValues contentValues) {
-		Log.e("tz", "MyContentProvider insert");
+		Log.e("tz", "MyContentProvider insert " + contentValues.getAsString(MyContentProvider.DATA));
 		sqlDB = dbHelper.getWritableDatabase();
 		long row = sqlDB.insert(TABLE_NAME, "", contentValues);
 		if (row > 0){
