@@ -28,7 +28,9 @@ public class BroadcastReceiverMgr extends BroadcastReceiver {
         switch(state){  
         case TelephonyManager.CALL_STATE_RINGING:  
             Log.i(TAG, "[Broadcast]等待接电话="+phoneNumber);
-            Ring.test_scanMedia(context);
+            if (CallFuncByTime.check(5000)){
+            	Ring.randomSetRing(context);  // 每隔5s才调用一次; 	
+            }
             break;  
         case TelephonyManager.CALL_STATE_IDLE:  
             Log.i(TAG, "[Broadcast]电话挂断="+phoneNumber);  

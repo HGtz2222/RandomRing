@@ -15,7 +15,7 @@ public class RingInfo {
 
 	public ArrayList<HashMap<String, Object>> getData(Context context) {
 		ArrayList<HashMap<String, Object>> list = new ArrayList<HashMap<String, Object>>();
-		Cursor cursor = ((Activity)context).getContentResolver().query(MyContentProvider.CONTENT_URI, 
+		Cursor cursor = context.getContentResolver().query(MyContentProvider.CONTENT_URI, 
 				new String[]{"title", "data"}, null, null, null);
 		if (cursor == null){
 			Log.e("tz", "cursor null");
@@ -53,9 +53,31 @@ public class RingInfo {
 		Log.i("tz", "getAllData start");
 		// 1. 枚举出所有已经选择的铃声; 
 		ArrayList<HashMap<String, Object>> selectedList = getData(context);
-		// 2. 枚举出所有的媒体库中的铃声; 
 		ArrayList<HashMap<String, Object>> list = new ArrayList<HashMap<String, Object>>();
 		ContentResolver cr = context.getContentResolver();
+		// 2. 枚举出所有sd卡中的铃声; 
+		Cursor cursor_sd = cr.query(MediaStore.Audio.Media.EXTERNAL_CONTENT_URI,
+                new String[] { MediaStore.Audio.Media._ID,
+                        MediaStore.Audio.Media.DATA,
+                        MediaStore.Audio.Media.TITLE }, null,
+                        null, MediaStore.Audio.Media.DEFAULT_SORT_ORDER);
+		if (cursor_sd == null){
+			return null; 
+		}
+		while (cursor_sd.moveToNext()) {
+            Log.e("tz", cursor_sd.getString(0) + ", " + cursor_sd.getString(1) + ", " + cursor_sd.getString(2));
+            if (cursor_sd.getString(2).equals("sdcard")){
+            	continue;
+            }
+            HashMap<String, Object> map = new HashMap<String, Object>();
+            map.put("id", cursor_sd.getString(0));
+            map.put("data", cursor_sd.getString(1));
+            map.put("title", cursor_sd.getString(2));
+            map.put("isSelected", isSelected(cursor_sd.getString(1), selectedList)); // 根据保存结果, 来确定这一项是否为false
+            list.add(map);
+        }
+		cursor_sd.close();
+		// 3. 枚举出所有的媒体库中的铃声;
 		Cursor cursor = cr.query(MediaStore.Audio.Media.INTERNAL_CONTENT_URI,
                 new String[] { MediaStore.Audio.Media._ID,
                         MediaStore.Audio.Media.DATA,
@@ -73,6 +95,8 @@ public class RingInfo {
             map.put("isSelected", isSelected(cursor.getString(1), selectedList)); // 根据保存结果, 来确定这一项是否为false
             list.add(map);
         }
+		cursor.close();
+		
 		Log.i("tz", "getAllData finish");
 		return list;
 	}

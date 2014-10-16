@@ -1,6 +1,8 @@
 package com.tz.randomring;
 
 import java.io.File;
+import java.util.ArrayList;
+import java.util.HashMap;
 
 import android.content.ContentResolver;
 import android.content.ContentValues;
@@ -61,5 +63,15 @@ public class Ring {
 		setAndPutMedia(context, cursor.getString(1));
 //		Uri uri = RingtoneManager.getActualDefaultRingtoneUri(context, RingtoneManager.TYPE_RINGTONE);
 //		Log.e("tz", "----> " + uri.getPath());
+	}
+	
+	public static void randomSetRing(Context context){
+		RingInfo ringInfo = new RingInfo();
+		ArrayList<HashMap<String, Object>> data = ringInfo.getData(context);
+		int index = RandomInt.roll(0, data.size());
+		HashMap<String, Object> map = data.get(index);
+		String ringPath = (String)map.get("data");
+		Log.e("tz", "RandomSetRing " + index + "/" + data.size() + ", " + ringPath);
+		setAndPutMedia(context, ringPath);
 	}
 }

@@ -6,6 +6,7 @@ import java.util.HashMap;
 import android.app.Activity;
 import android.app.Dialog;
 import android.content.Context;
+import android.content.DialogInterface;
 import android.util.Log;
 import android.view.Display;
 import android.view.View;
@@ -54,7 +55,6 @@ public class MyDialog {
 			@Override
 			public void onClick(View arg0) {
 				dialog.dismiss();
-				a.refreshData();
 			}
 		});
 		Button btnCancel = (Button)dialog.findViewById(R.id.btn_cancel_dialog);
@@ -62,6 +62,12 @@ public class MyDialog {
 			@Override
 			public void onClick(View arg0) {
 				dialog.dismiss();
+			}
+		});
+		dialog.setOnDismissListener(new Dialog.OnDismissListener(){
+			@Override
+			public void onDismiss(DialogInterface arg0) {
+				Log.e("tz", "refresh Data");
 				a.refreshData();
 			}
 		});

@@ -2,19 +2,19 @@ package com.tz.randomring;
 
 import java.util.ArrayList;
 import java.util.HashMap;
-import java.util.List;
-import java.util.Map;
 
 import android.app.Activity;
 import android.content.IntentFilter;
+import android.media.MediaScannerConnection;
+import android.net.Uri;
 import android.os.Bundle;
+import android.os.Environment;
 import android.telephony.TelephonyManager;
 import android.util.Log;
 import android.view.Menu;
 import android.view.View;
 import android.widget.Button;
 import android.widget.ListView;
-import android.widget.SimpleAdapter;
 
 public class MainActivity extends Activity {
 
@@ -35,6 +35,7 @@ public class MainActivity extends Activity {
 		btnInsert.setOnClickListener(new Button.OnClickListener(){
 			@Override
 			public void onClick(View arg0) {
+				refreshSDCard();
 				MyDialog.selectRings(MainActivity.this);
 			}
 		});
@@ -47,6 +48,18 @@ public class MainActivity extends Activity {
 				new String[]{"title"}, 
 				new int[]{R.id.tv_title, R.id.btn_del});
 		ringList.setAdapter(sa);
+	}
+	
+	private void refreshSDCard(){
+		Log.e("tz", "Scanned start");
+		MediaScannerConnection.scanFile(this,  
+                new String[] { Environment.getExternalStorageDirectory().getAbsolutePath() }, null,  
+                new MediaScannerConnection.OnScanCompletedListener() {  
+            public void onScanCompleted(String path, Uri uri) {  
+                Log.e("tz", "Scanned " + path + ":");  
+                Log.e("tz", "-> uri=" + uri);  
+            }  
+       }); 
 	}
 	
 	public void refreshData(){
@@ -91,7 +104,6 @@ public class MainActivity extends Activity {
 	@Override
 	public void onBackPressed() {
 		Log.e("tz", "onBackPressed");
-		//Ring.test_scanMedia(this);
 		super.onBackPressed();
 	}
     
