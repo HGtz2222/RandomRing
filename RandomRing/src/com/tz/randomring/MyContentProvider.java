@@ -22,6 +22,7 @@ public class MyContentProvider extends ContentProvider{
 	public final static String TITLE = "TITLE";
 	public final static String DATA = "DATA";
 	public final static String ID = "_id";
+	public final static String CLEAR_ALL_DATA = "clearAllData";
 	
 	private static class DatabaseHelper extends SQLiteOpenHelper {
         DatabaseHelper(Context context) {
@@ -47,7 +48,11 @@ public class MyContentProvider extends ContentProvider{
 	public int delete(Uri uri, String where, String[] whereArgs) {
 		Log.e("tz", "MyContentProvider delete " + whereArgs[0]);
 		sqlDB = dbHelper.getWritableDatabase();
-		sqlDB.delete(TABLE_NAME, DATA + "=?", whereArgs);
+		if (where != null && where.equals(CLEAR_ALL_DATA)){
+			sqlDB.delete(TABLE_NAME, null, null);
+		}else{
+			sqlDB.delete(TABLE_NAME, DATA + "=?", whereArgs);	
+		}
 		return 0;
 	}
 

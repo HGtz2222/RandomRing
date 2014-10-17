@@ -3,7 +3,7 @@
     android:layout_width="fill_parent"
     android:layout_height="fill_parent" >
 
-    <TextView
+    <Button
         android:id="@+id/tv_title_in_all"
         android:layout_width="0sp"
         android:layout_height="@dimen/player_list_item_height"
@@ -11,7 +11,8 @@
         android:layout_weight="5"
         android:textColor="@color/textColor"
         android:textSize="20sp"
-        android:gravity="center_vertical" />
+        android:gravity="center_vertical"
+        android:background="@color/background" />
     
 
     <CheckBox
@@ -20,6 +21,7 @@
         android:layout_height="@dimen/player_list_item_height"
         android:layout_weight="1"
         android:text=""
-        android:gravity="center" />
+        android:gravity="center"
+        android:background="@color/background" />
 
 </LinearLayout>

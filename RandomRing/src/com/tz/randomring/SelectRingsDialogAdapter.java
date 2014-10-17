@@ -1,11 +1,15 @@
 package com.tz.randomring;
 
+import java.io.IOException;
 import java.util.ArrayList;
 import java.util.HashMap;
 
 import com.tz.randomring.AllRingsDialogAdapter.ViewHolder;
 
 import android.content.Context;
+import android.media.AudioManager;
+import android.media.MediaPlayer;
+import android.media.SoundPool;
 import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -50,7 +54,7 @@ public class SelectRingsDialogAdapter extends BaseAdapter{
 
 	static class ViewHolder  
     {  
-        public TextView title;  
+        public Button title;  
         public Button btnDel;  
     } 
 	
@@ -61,7 +65,7 @@ public class SelectRingsDialogAdapter extends BaseAdapter{
 		if (convertView == null){
 			holder = new ViewHolder();
 			convertView = mInflater.inflate(uiId, null);
-			holder.title = (TextView)convertView.findViewById(ctrlId[0]);
+			holder.title = (Button)convertView.findViewById(ctrlId[0]);
 			holder.btnDel = (Button)convertView.findViewById(ctrlId[1]);
 			convertView.setTag(holder);
 		}else{
@@ -69,6 +73,15 @@ public class SelectRingsDialogAdapter extends BaseAdapter{
 		}
 		HashMap<String, Object> map = data.get(index);
 		holder.title.setText((String)map.get(columnName[0]));
+		holder.title.setOnClickListener(new Button.OnClickListener(){
+			@Override
+			public void onClick(View view) {
+				HashMap<String, Object> map = data.get(index);
+				String path = (String)map.get("data");
+				Log.i("tz", "onItemClick play ring " + path);
+				MediaPlayerSingleton.playRing(path, view);
+			}
+		});
 		holder.btnDel.setOnClickListener(new Button.OnClickListener(){
 			@Override
 			public void onClick(View arg0) {

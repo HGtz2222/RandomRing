@@ -9,6 +9,7 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.BaseAdapter;
+import android.widget.Button;
 import android.widget.CheckBox;
 import android.widget.CompoundButton;
 import android.widget.CompoundButton.OnCheckedChangeListener;
@@ -50,7 +51,7 @@ public class AllRingsDialogAdapter extends BaseAdapter{
 
 	static class ViewHolder  
     {  
-        public TextView title;  
+        public Button title;  
         public CheckBox isSelected;  
     }  
 	
@@ -62,7 +63,7 @@ public class AllRingsDialogAdapter extends BaseAdapter{
 		if (convertView == null){
 			holder = new ViewHolder();
 			convertView = mInflater.inflate(uiId, null);
-			holder.title = (TextView)convertView.findViewById(ctrlId[0]);
+			holder.title = (Button)convertView.findViewById(ctrlId[0]);
 			holder.isSelected = (CheckBox)convertView.findViewById(ctrlId[1]);
 			convertView.setTag(holder);
 		}else{
@@ -70,7 +71,19 @@ public class AllRingsDialogAdapter extends BaseAdapter{
 		}
 		HashMap<String, Object> map = data.get(index);
 		holder.title.setText((String)map.get(columnName[0]));
+		holder.title.setOnClickListener(new Button.OnClickListener(){
+			@Override
+			public void onClick(View view) {
+				HashMap<String, Object> map = data.get(index);
+				String path = (String)map.get("data");
+				Log.i("tz", "onItemClick play ring " + path);
+				MediaPlayerSingleton.playRing(path, view);
+			}
+		});
 		Boolean flag = (Boolean)map.get(columnName[1]);
+		if (flag == null){
+			flag = Boolean.TRUE;  // 如果数据中不存在这一项, 则当作true来处理; 
+		}
 		//Log.e("tz-->", (String)map.get(columnName[0]) + ", " + flag);
 		holder.isSelected.setChecked(flag);
 		// 如果使用OnCheckedChangeListener的话, 会出现复选框销毁时也能响应到的情况; 
@@ -97,5 +110,10 @@ public class AllRingsDialogAdapter extends BaseAdapter{
 		});
 		return convertView;
 	}
+
+	public void setData(ArrayList<HashMap<String, Object>> data) {
+		this.data = data;
+	}
+
 
 }

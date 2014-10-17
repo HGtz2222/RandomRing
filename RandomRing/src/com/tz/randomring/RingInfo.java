@@ -34,7 +34,7 @@ public class RingInfo {
 
 	public void setData(Context context, ArrayList<HashMap<String, Object>> data) {
 		// 先清空数据库; 
-		context.getContentResolver().delete(MyContentProvider.CONTENT_URI, null, null);
+		// context.getContentResolver().delete(MyContentProvider.CONTENT_URI, null, null);
 		// 再插入数据库; 
 		for (int i = 0; i < data.size(); ++i){
 			HashMap<String, Object> map = data.get(i);
@@ -122,6 +122,26 @@ public class RingInfo {
 	public void remove(Context context, HashMap<String, Object> map) {
 		String ringData = (String)map.get("data");
 		context.getContentResolver().delete(MyContentProvider.CONTENT_URI, null, new String[]{ringData});
+	}
+
+	public void setAllData(Context context) {
+		// 1. 获取出所有已经选择好的铃声; 
+		ArrayList<HashMap<String, Object>> selectedList = getData(context);
+		// 2. 获取出所有可供选择的铃声; 
+		ArrayList<HashMap<String, Object>> allList = getAllData(context);
+		// 3. 将所有未选择的铃声, 插入到数据库中; 
+		for (int i = 0; i < allList.size(); ++i){
+			HashMap<String, Object> map = allList.get(i);
+			if (isSelected((String)map.get("data"), selectedList)){
+				continue;
+			}
+			insert(context, map);
+		}
+		return ; 
+	}
+
+	public void removeAllData(Context context) {
+		context.getContentResolver().delete(MyContentProvider.CONTENT_URI, MyContentProvider.CLEAR_ALL_DATA, new String[]{"*"});
 	}
 
 }

@@ -5,14 +5,18 @@ import java.util.HashMap;
 
 import android.app.Activity;
 import android.content.IntentFilter;
+import android.media.AudioManager;
 import android.media.MediaScannerConnection;
+import android.media.SoundPool;
 import android.net.Uri;
 import android.os.Bundle;
 import android.os.Environment;
 import android.telephony.TelephonyManager;
 import android.util.Log;
 import android.view.Menu;
+import android.view.MenuItem;
 import android.view.View;
+import android.widget.AdapterView;
 import android.widget.Button;
 import android.widget.ListView;
 
@@ -68,6 +72,10 @@ public class MainActivity extends Activity {
 		sa.notifyDataSetChanged();
 	}
 	
+	public void setAllData(){
+		ringInfo.setAllData(this);
+	}
+	
 	public ArrayList<HashMap<String, Object>> getData(){
 		return ringInfo.getData(this);
 	}
@@ -89,17 +97,45 @@ public class MainActivity extends Activity {
         initListener();
         initData();
         
-		registerIt();
+		//registerIt();  // 注册BroadcastReceiver已经通过manifest完成了, 不需要调用注册函数; 
     }
 
-
     @Override
+	protected void onPause() {
+		super.onPause();
+		//unregisterIt();
+	}
+
+	@Override
+	protected void onResume() {
+		super.onResume();
+		//registerIt();
+	}
+
+	@Override
     public boolean onCreateOptionsMenu(Menu menu) {
         // Inflate the menu; this adds items to the action bar if it is present.
-        getMenuInflater().inflate(R.menu.main, menu);
+        // getMenuInflater().inflate(R.menu.main, menu);
+		menu.add(Menu.NONE, Menu.FIRST + 1, 1, getResources().getString(R.string.clear_all_rings));
         return true;
     }
 
+	@Override
+	public boolean onOptionsItemSelected(MenuItem item) {
+		int id = item.getItemId();
+		if (id == Menu.FIRST + 1){
+			clearAllRings();
+		}
+		return true;
+	}
+
+	private void clearAllRings() {
+		Log.e("tz", "clearAllRings");
+		// 1. 清空数据库所有的值;
+		ringInfo.removeAllData(this);
+		// 2. 重新查询数据库, 获取到当前的data; 
+		refreshData();
+	}
 
 	@Override
 	public void onBackPressed() {

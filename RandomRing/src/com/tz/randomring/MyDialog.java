@@ -38,18 +38,16 @@ public class MyDialog {
 	public static void selectRings(Context context){
 		final Dialog dialog = makeDialog(context, R.layout.select_ring_dialog);
 		final MainActivity a = (MainActivity)context;
-		// 1. 设置标题; 
-		dialog.setTitle(R.string.select_ring_title);
-		// 2. 填充对话框中的数据; 
+		// 1. 填充对话框中的数据; 
 		ListView list = (ListView)dialog.findViewById(R.id.list_all_rings);
 		final ArrayList<HashMap<String, Object>> data = a.getAllData();
-		AllRingsDialogAdapter sa = new AllRingsDialogAdapter(context, data, R.layout.vlist_all_rings, 
+		final AllRingsDialogAdapter sa = new AllRingsDialogAdapter(context, data, R.layout.vlist_all_rings, 
 				new String[]{"title", "isSelected"}, 
 				new int[]{R.id.tv_title_in_all, R.id.btn_select_ring});
 		list.setAdapter(sa);
-		// 3. 绑定列表框的事件; 
+		// 2. 绑定列表框的事件; 
 		list.setOnItemClickListener(new AllRingsOnItemClickListener());
-		// 4. 绑定按钮; 
+		// 3. 绑定按钮; 
 		Button btnSure = (Button)dialog.findViewById(R.id.btn_sure_dialog);
 		btnSure.setOnClickListener(new Button.OnClickListener(){
 			@Override
@@ -57,11 +55,25 @@ public class MyDialog {
 				dialog.dismiss();
 			}
 		});
-		Button btnCancel = (Button)dialog.findViewById(R.id.btn_cancel_dialog);
-		btnCancel.setOnClickListener(new Button.OnClickListener(){
+		Button btnSelectAll = (Button)dialog.findViewById(R.id.btn_select_all_dialog);
+		btnSelectAll.setOnClickListener(new Button.OnClickListener(){
 			@Override
 			public void onClick(View arg0) {
-				dialog.dismiss();
+				Log.e("tz", "select all start");
+				// 1. 通过ringInfo, 把所有的数据写到数据库; 
+				a.setAllData();
+				// 2. 调用刷新函数, 重置界面; 
+				refreshDataDialog();
+				Log.e("tz", "select all finish");
+			}
+
+			private void refreshDataDialog() {
+				// 1. 从数据库中查询数据;
+				ArrayList<HashMap<String, Object>> data = a.getData();
+				// 2. 把数据表设置到adapter中;
+				sa.setData(data);
+				// 3. 通知adapter刷新界面; 
+				sa.notifyDataSetChanged();
 			}
 		});
 		dialog.setOnDismissListener(new Dialog.OnDismissListener(){
@@ -71,6 +83,8 @@ public class MyDialog {
 				a.refreshData();
 			}
 		});
+		// 4. 设置标题; 
+		dialog.setTitle(R.string.select_ring_title);
 		dialog.show();
 	}
 }
