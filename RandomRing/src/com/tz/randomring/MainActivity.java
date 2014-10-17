@@ -28,11 +28,13 @@ public class MainActivity extends Activity {
 	private SelectRingsDialogAdapter sa; 
 	private ListView ringList;
 	private Button btnInsert;
+	private Button btnMenu; 
 	private ArrayList<HashMap<String, Object>> data;
 	
 	private void initUI(){
 		ringList = (ListView)findViewById(R.id.ringlist);
 		btnInsert = (Button)findViewById(R.id.btn_insert);
+		btnMenu = (Button)findViewById(R.id.btn_menu);
 	}
 	
 	private void initListener(){
@@ -41,6 +43,12 @@ public class MainActivity extends Activity {
 			public void onClick(View arg0) {
 				refreshSDCard();
 				MyDialog.selectRings(MainActivity.this);
+			}
+		});
+		btnMenu.setOnClickListener(new Button.OnClickListener(){
+			@Override
+			public void onClick(View arg0) {
+				openOptionsMenu();
 			}
 		});
 	}
