@@ -68,6 +68,10 @@ public class Ring {
 	public static void randomSetRing(Context context){
 		RingInfo ringInfo = new RingInfo();
 		ArrayList<HashMap<String, Object>> data = ringInfo.getData(context);
+		if (data.size() == 0){
+			// 如果选择的列表为空, 则不做任何动作了. 
+			return ; 
+		}
 		int index = RandomInt.roll(0, data.size());
 		HashMap<String, Object> map = data.get(index);
 		String ringPath = (String)map.get("data");

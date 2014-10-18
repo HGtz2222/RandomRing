@@ -56,6 +56,7 @@ public class SelectRingsDialogAdapter extends BaseAdapter{
 	static class ViewHolder  
     {  
         public Button title;  
+        public ImageButton btnPlaying;
         public ImageButton btnDel;  
     } 
 	
@@ -67,11 +68,13 @@ public class SelectRingsDialogAdapter extends BaseAdapter{
 			holder = new ViewHolder();
 			convertView = mInflater.inflate(uiId, null);
 			holder.title = (Button)convertView.findViewById(ctrlId[0]);
-			holder.btnDel = (ImageButton)convertView.findViewById(ctrlId[1]);
+			holder.btnPlaying = (ImageButton)convertView.findViewById(ctrlId[1]);
+			holder.btnDel = (ImageButton)convertView.findViewById(ctrlId[2]);
 			convertView.setTag(holder);
 		}else{
 			holder = (ViewHolder)convertView.getTag();
 		}
+		final ImageButton btnPlaying = holder.btnPlaying;
 		HashMap<String, Object> map = data.get(index);
 		holder.title.setText((String)map.get(columnName[0]));
 		holder.title.setOnClickListener(new Button.OnClickListener(){
@@ -80,7 +83,9 @@ public class SelectRingsDialogAdapter extends BaseAdapter{
 				HashMap<String, Object> map = data.get(index);
 				String path = (String)map.get("data");
 				Log.i("tz", "onItemClick play ring " + path);
-				MediaPlayerSingleton.playRing(path, view);
+				MainActivity a = (MainActivity)context;
+				a.playRing(path, index); 
+				// MediaPlayerSingleton.playRing(path, view, btnPlaying);
 			}
 		});
 		holder.btnDel.setOnClickListener(new Button.OnClickListener(){
@@ -94,9 +99,6 @@ public class SelectRingsDialogAdapter extends BaseAdapter{
 				a.updateDB(map);
 				// 3. 更新界面表的数据; 
 				a.refreshData();
-				ArrayList<HashMap<String, Object>> tmp = data;
-				tmp.size();
-				SelectRingsDialogAdapter.this.notifyDataSetChanged();
 			}
 		});
 		return convertView;

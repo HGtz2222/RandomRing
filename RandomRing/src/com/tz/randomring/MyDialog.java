@@ -82,6 +82,8 @@ public class MyDialog {
 			public void onDismiss(DialogInterface arg0) {
 				Log.e("tz", "refresh Data");
 				a.refreshData();
+				MediaPlayerSingleton.play("", true); // 将正在播放的铃声停止; 
+				Ring.randomSetRing(a); // 设置完成之后, 立刻让一次铃声生效; 
 			}
 		});
 		// 4. 设置标题; 

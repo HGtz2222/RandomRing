@@ -11,5 +11,7 @@
     <string name="cancel">取消</string>
     <string name="select_all">全选</string>
     <string name="clear_all_rings">清空列表</string>
+    <string name="empty_list_tip">列表为空!\n请添加铃声\n</string>
+    <string name="not_empty_list_tip"/>
 
 </resources>

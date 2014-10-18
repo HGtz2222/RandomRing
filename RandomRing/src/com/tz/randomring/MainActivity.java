@@ -5,9 +5,7 @@ import java.util.HashMap;
 
 import android.app.Activity;
 import android.content.IntentFilter;
-import android.media.AudioManager;
 import android.media.MediaScannerConnection;
-import android.media.SoundPool;
 import android.net.Uri;
 import android.os.Bundle;
 import android.os.Environment;
@@ -16,10 +14,11 @@ import android.util.Log;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
-import android.widget.AdapterView;
 import android.widget.Button;
 import android.widget.ImageButton;
+import android.widget.LinearLayout;
 import android.widget.ListView;
+import android.widget.TextView;
 
 public class MainActivity extends Activity {
 
@@ -30,12 +29,14 @@ public class MainActivity extends Activity {
 	private ListView ringList;
 	private ImageButton btnInsert;
 	private ImageButton btnMenu; 
+	private TextView tv_empty_tip;
 	private ArrayList<HashMap<String, Object>> data;
 	
 	private void initUI(){
 		ringList = (ListView)findViewById(R.id.ringlist);
 		btnInsert = (ImageButton)findViewById(R.id.btn_insert);
 		btnMenu = (ImageButton)findViewById(R.id.btn_menu);
+		tv_empty_tip = (TextView)findViewById(R.id.empty_tip);
 	}
 	
 	private void initListener(){
@@ -59,8 +60,9 @@ public class MainActivity extends Activity {
 		data = ringInfo.getData(this);
 		sa = new SelectRingsDialogAdapter(this, data, R.layout.vlist, 
 				new String[]{"title"}, 
-				new int[]{R.id.tv_title, R.id.btn_del});
+				new int[]{R.id.tv_title, R.id.btn_playing, R.id.btn_del});
 		ringList.setAdapter(sa);
+		refreshTip(data.size() == 0);
 	}
 	
 	private void refreshSDCard(){
@@ -75,10 +77,33 @@ public class MainActivity extends Activity {
        }); 
 	}
 	
+	private void refreshTip(boolean isEmpty){
+		if (isEmpty){
+			tv_empty_tip.setText(R.string.empty_list_tip);
+		}else{
+			tv_empty_tip.setText(R.string.not_empty_list_tip);
+		}
+	}
+	
 	public void refreshData(){
-		ArrayList<HashMap<String, Object>> tmp = ringInfo.getData(this);
-		sa.setData(tmp);
+		// 先将旧的项关掉; 
+		if (lastPath != null){
+			int index = getIndexOfRingData(lastPath);
+			setPlayingStatus(index, false);
+		}
+		data = ringInfo.getData(this);
+		sa.setData(data);
 		sa.notifyDataSetChanged();
+		refreshTip(data.size() == 0);
+		// 再设置新的播放项; 
+		if (lastPath != null){
+			int index = getIndexOfRingData(lastPath);
+			setPlayingStatus(index, true);
+			if (index == -1){
+				// 正在播放的音乐已经被删除
+				MediaPlayerSingleton.play(lastPath, true);
+			}
+		}
 	}
 	
 	public void setAllData(){
@@ -112,6 +137,7 @@ public class MainActivity extends Activity {
     @Override
 	protected void onPause() {
 		super.onPause();
+		MediaPlayerSingleton.play(lastPath, true);
 		//unregisterIt();
 	}
 
@@ -175,5 +201,54 @@ public class MainActivity extends Activity {
 			// 删除数据; 
 			ringInfo.remove(this, map);
 		}
+	}
+
+	private String lastPath; 
+	
+	public void playRing(String path, int index) {
+		// 用来处理播放铃声; 
+		// 通过铃声播放类来控制播放状态; 
+		if (path.equals(lastPath)){
+			// 当前点击的和上次点击的为相同铃声, 停止播放; 
+			MediaPlayerSingleton.play(path, true);
+			setPlayingStatus(index, false);
+			lastPath = null; // 清空lastPath; 
+			return ; 
+		}
+		// 如果上次播放的铃声和本次选择的不一致, 则关闭上次的播放图标; 
+		if (lastPath != null){
+			int ringIndex = getIndexOfRingData(lastPath);
+			if (ringIndex != -1){
+				// 上一个铃声还存在, 则把上一个家伙干掉; 
+				setPlayingStatus(ringIndex, false);
+			}
+		}
+		// 播放当前铃声; 
+		setPlayingStatus(index, true);
+		MediaPlayerSingleton.play(path, false);
+		lastPath = path;
+	}
+
+	private void setPlayingStatus(int index, boolean isPlaying){
+		if (index < 0){
+			return ; 
+		}
+		LinearLayout layout = (LinearLayout)ringList.getChildAt(index);
+		if (layout == null){
+			return ; 
+		}
+		ImageButton btnPlaying = (ImageButton)layout.findViewById(R.id.btn_playing);
+		btnPlaying.setVisibility(isPlaying ? ImageButton.VISIBLE : ImageButton.INVISIBLE);
+	}
+	
+	private int getIndexOfRingData(String lastPath) {
+		for (int i = 0; i < data.size(); ++i){
+			HashMap<String, Object> map = data.get(i);
+			String path = (String)map.get("data");
+			if (lastPath.equals(path)){
+				return i; 
+			}
+		}
+		return -1;
 	}  
 }

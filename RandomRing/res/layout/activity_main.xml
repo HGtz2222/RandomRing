@@ -3,12 +3,12 @@
     android:id="@+id/TableLayout1"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
+    android:background="@drawable/background1"
     android:paddingBottom="@dimen/activity_vertical_margin"
     android:paddingLeft="@dimen/activity_horizontal_margin"
     android:paddingRight="@dimen/activity_horizontal_margin"
     android:paddingTop="@dimen/activity_vertical_margin"
-    tools:context=".MainActivity"
-    android:background="@drawable/background1" >
+    tools:context=".MainActivity" >
 
     <TableRow
         android:id="@+id/unused1"
@@ -20,10 +20,10 @@
             android:id="@+id/btn_menu"
             android:layout_width="0sp"
             android:layout_height="@dimen/player_title_height"
-            android:text=""
             android:layout_weight="1"
-            android:src="@drawable/menu"
             android:background="@color/background"
+            android:src="@drawable/menu"
+            android:text=""
             android:textColor="@color/textColor" />
 
         <TextView
@@ -31,32 +31,47 @@
             android:layout_width="0sp"
             android:layout_height="@dimen/player_title_height"
             android:layout_weight="2.5"
+            android:background="@drawable/title"
             android:gravity="center"
             android:text=""
-            android:background="@drawable/title"
             android:textColor="@color/textColor"
             android:textSize="25sp" />
-        
+
         <ImageButton
             android:id="@+id/btn_insert"
             android:layout_width="0sp"
             android:layout_height="@dimen/player_title_height"
             android:layout_weight="1"
-            android:text=""
             android:background="@color/background"
-            android:src="@drawable/insert"
             android:scaleType="centerInside"
+            android:src="@drawable/insert"
+            android:text=""
             android:textColor="@color/textColor"
             android:textSize="30sp" />
-
     </TableRow>
 
-    <ListView
-        android:id="@+id/ringlist"
+    <FrameLayout
+        android:id="@+id/unused4"
         android:layout_width="match_parent"
         android:layout_height="0sp"
-        android:layout_weight="15"
-        android:background="@color/background"
-        android:textColor="@color/textColor" />
+        android:layout_weight="15" >
+
+        <TextView
+            android:id="@+id/empty_tip"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:background="@color/no_background"
+            android:gravity="center|bottom"
+            android:text="@string/empty_list_tip"
+            android:textSize="30sp"
+            android:textColor="@color/tip_color" />
+
+        <ListView
+            android:id="@+id/ringlist"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:background="@color/background"
+            android:textColor="@color/textColor" />
+    </FrameLayout>
 
 </TableLayout>

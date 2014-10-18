@@ -9,10 +9,20 @@
         android:layout_width="0sp"
         android:layout_height="@dimen/player_list_item_height"
         android:text=""
-        android:layout_weight="3"
+        android:layout_weight="4"
         android:textColor="@color/textRingColor"
         android:textSize="20sp"
         android:gravity="center_vertical"
+        android:background="@color/background" />
+
+    <ImageButton
+        android:id="@+id/btn_playing"
+        android:layout_width="0sp"
+        android:layout_height="@dimen/player_list_item_height"
+        android:src="@drawable/player"
+        android:layout_weight="1"
+		android:visibility="invisible"
+        android:scaleType="centerInside"
         android:background="@color/background" />
 
     <ImageButton
