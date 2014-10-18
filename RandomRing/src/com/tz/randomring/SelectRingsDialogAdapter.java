@@ -99,6 +99,7 @@ public class SelectRingsDialogAdapter extends BaseAdapter{
 				a.updateDB(map);
 				// 3. 更新界面表的数据; 
 				a.refreshData();
+				Ring.randomSetRing(a); // 每次删除了都重新设置一下铃声, 防止出现删除掉的铃声能播放的情况; 
 			}
 		});
 		return convertView;

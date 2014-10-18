@@ -28,6 +28,9 @@ public class BroadcastReceiverMgr extends BroadcastReceiver {
         switch(state){  
         case TelephonyManager.CALL_STATE_RINGING:  
             Log.i(TAG, "[Broadcast]等待接电话="+phoneNumber);
+            if(CallFuncByTime.check(5000)){
+            	//MediaPlayerSingleton.play("", true); // 来电话时停止试听; 
+            }
             break;  
         case TelephonyManager.CALL_STATE_IDLE:  
             Log.i(TAG, "[Broadcast]电话挂断="+phoneNumber);  

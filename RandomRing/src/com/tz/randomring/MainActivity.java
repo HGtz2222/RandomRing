@@ -3,6 +3,9 @@ package com.tz.randomring;
 import java.util.ArrayList;
 import java.util.HashMap;
 
+import net.youmi.android.banner.AdSize;
+import net.youmi.android.banner.AdView;
+import net.youmi.android.banner.AdViewListener;
 import android.app.Activity;
 import android.content.IntentFilter;
 import android.media.MediaScannerConnection;
@@ -130,7 +133,7 @@ public class MainActivity extends Activity {
         initUI();
         initListener();
         initData();
-        
+        initAdBar();
 		//registerIt();  // 注册BroadcastReceiver已经通过manifest完成了, 不需要调用注册函数; 
     }
 
@@ -251,4 +254,35 @@ public class MainActivity extends Activity {
 		}
 		return -1;
 	}  
+	
+	private void initAdBar(){
+		// 实例化广告条
+		AdView adView = new AdView(this, AdSize.FIT_SCREEN);
+		// 获取要嵌入广告条的布局
+		LinearLayout adLayout=(LinearLayout)findViewById(R.id.adLayout);
+		// 将广告条加入到布局中
+		adLayout.addView(adView);
+		
+		adView.setAdListener(new AdViewListener() {
+
+		    @Override
+		    public void onSwitchedAd(AdView adView) {
+		        // 切换广告并展示
+		    	Log.e("tz", "切换广告");
+		    }
+
+		    @Override
+		    public void onReceivedAd(AdView adView) {
+		        // 请求广告成功
+		    	Log.e("tz", "请求广告成功");
+		    }
+
+		    @Override
+		    public void onFailedToReceivedAd(AdView adView) {
+		        // 请求广告失败
+		    	Log.e("tz", "请求广告失败");
+		    }
+		});
+
+	}
 }
