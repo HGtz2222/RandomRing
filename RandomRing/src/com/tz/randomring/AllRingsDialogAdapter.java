@@ -70,7 +70,7 @@ public class AllRingsDialogAdapter extends BaseAdapter{
 			holder = (ViewHolder)convertView.getTag();
 		}
 		HashMap<String, Object> map = data.get(index);
-		holder.title.setText((String)map.get(columnName[0]));
+		holder.title.setText("   " + (String)map.get(columnName[0]));
 		holder.title.setOnClickListener(new Button.OnClickListener(){
 			@Override
 			public void onClick(View view) {

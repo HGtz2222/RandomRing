@@ -24,7 +24,7 @@
             android:layout_weight="1"
             android:background="@drawable/selector"
             android:text="@string/select_all"
-            android:textColor="@color/textColor"
+            android:textColor="@color/textRingColor"
             android:textSize="20sp" />
 
         <Button
@@ -34,7 +34,7 @@
             android:layout_weight="1"
             android:text="@string/sure"
             android:background="@drawable/selector"
-            android:textColor="@color/textColor"
+            android:textColor="@color/textRingColor"
             android:textSize="20sp" />
     </TableRow>
 

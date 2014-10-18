@@ -19,7 +19,7 @@ public class MyDialog {
 	@SuppressWarnings("deprecation")
 	private static Dialog makeDialog(Context context, int id){
 		// 1. 创建对话框;
-		Dialog dialog = new Dialog(context);
+		Dialog dialog = new Dialog(context, R.style.dialog);
 		dialog.setContentView(id);
 		// 2. 根据当前屏幕大小, 设置对话框大小; 			
 		WindowManager m = ((Activity)context).getWindowManager(); 
@@ -28,6 +28,7 @@ public class MyDialog {
 	    WindowManager.LayoutParams lp = dialogWindow.getAttributes();
 	    lp.height = (int)(d.getHeight() * 0.8);
 	    lp.width = (int)(d.getWidth() * 0.9);
+	    //lp.alpha = 0.95f;
 	    //Log.e("tz", "h, w" + lp.height + ", " + lp.width);
 	    dialogWindow.setAttributes(lp);
 	    // 3. 禁止后退; 
@@ -84,7 +85,7 @@ public class MyDialog {
 			}
 		});
 		// 4. 设置标题; 
-		dialog.setTitle(R.string.select_ring_title);
+		//dialog.setTitle(R.string.select_ring_title);
 		dialog.show();
 	}
 }

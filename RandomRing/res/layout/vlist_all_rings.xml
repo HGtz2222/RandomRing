@@ -9,10 +9,10 @@
         android:layout_height="@dimen/player_list_item_height"
         android:text=""
         android:layout_weight="5"
-        android:textColor="@color/textColor"
-        android:textSize="20sp"
+        android:textColor="@color/textRingColor"
+        android:textSize="15sp"
         android:gravity="center_vertical"
-        android:background="@color/background" />
+        android:background="@color/no_background" />
     
 
     <CheckBox
@@ -22,6 +22,6 @@
         android:layout_weight="1"
         android:text=""
         android:gravity="center"
-        android:background="@color/background" />
+        android:background="@color/no_background" />
 
 </LinearLayout>

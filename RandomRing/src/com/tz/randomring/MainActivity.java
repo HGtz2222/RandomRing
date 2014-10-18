@@ -18,6 +18,7 @@ import android.view.MenuItem;
 import android.view.View;
 import android.widget.AdapterView;
 import android.widget.Button;
+import android.widget.ImageButton;
 import android.widget.ListView;
 
 public class MainActivity extends Activity {
@@ -27,14 +28,14 @@ public class MainActivity extends Activity {
 	private RingInfo ringInfo;
 	private SelectRingsDialogAdapter sa; 
 	private ListView ringList;
-	private Button btnInsert;
-	private Button btnMenu; 
+	private ImageButton btnInsert;
+	private ImageButton btnMenu; 
 	private ArrayList<HashMap<String, Object>> data;
 	
 	private void initUI(){
 		ringList = (ListView)findViewById(R.id.ringlist);
-		btnInsert = (Button)findViewById(R.id.btn_insert);
-		btnMenu = (Button)findViewById(R.id.btn_menu);
+		btnInsert = (ImageButton)findViewById(R.id.btn_insert);
+		btnMenu = (ImageButton)findViewById(R.id.btn_menu);
 	}
 	
 	private void initListener(){

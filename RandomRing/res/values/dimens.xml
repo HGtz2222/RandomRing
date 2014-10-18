@@ -4,5 +4,6 @@
     <dimen name="activity_horizontal_margin">16dp</dimen>
     <dimen name="activity_vertical_margin">16dp</dimen>
     <dimen name="player_list_item_height">60sp</dimen>
+    <dimen name="player_title_height">50sp</dimen>
 
 </resources>

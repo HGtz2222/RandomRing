@@ -16,6 +16,7 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.BaseAdapter;
 import android.widget.Button;
+import android.widget.ImageButton;
 import android.widget.TextView;
 
 public class SelectRingsDialogAdapter extends BaseAdapter{
@@ -55,7 +56,7 @@ public class SelectRingsDialogAdapter extends BaseAdapter{
 	static class ViewHolder  
     {  
         public Button title;  
-        public Button btnDel;  
+        public ImageButton btnDel;  
     } 
 	
 	@Override
@@ -66,7 +67,7 @@ public class SelectRingsDialogAdapter extends BaseAdapter{
 			holder = new ViewHolder();
 			convertView = mInflater.inflate(uiId, null);
 			holder.title = (Button)convertView.findViewById(ctrlId[0]);
-			holder.btnDel = (Button)convertView.findViewById(ctrlId[1]);
+			holder.btnDel = (ImageButton)convertView.findViewById(ctrlId[1]);
 			convertView.setTag(holder);
 		}else{
 			holder = (ViewHolder)convertView.getTag();
